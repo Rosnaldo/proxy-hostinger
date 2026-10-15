@@ -1,0 +1,7 @@
+# Let's Encrypt certificates and ACME challenge files.
+letsencrypt/
+certbot/
+
+# Symlinks to the apps' own files (their repos: call-center, django-test).
+callcenter/
+forecast/
