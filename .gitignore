@@ -3,5 +3,5 @@ letsencrypt/
 certbot/
 
 # Symlinks to the apps' own files (their repos: call-center, django-test).
-callcenter/
-forecast/
+call-center/
+route-forecast/

@@ -1,4 +1,4 @@
-# Central reverse proxy for every app on this server:  docker compose up -d
+# Central reverse proxy for every app on this server:  docker compose --env-file .env.prod up -d
 #
 # The only stack that publishes ports 80 and 443. Each app joins the external `edge`
 # network with only the services nginx talks to, under a prefixed alias
@@ -11,7 +11,7 @@
 # nginx/render-modules.sh). On the first deploy nginx-https restarts until `certbot`
 # has obtained every app's certificate.
 #
-# Configuration: .env (where each app's nginx folder is).
+# Configuration: .env.prod (where each app's nginx folder is).
 services:
   # Port 80: Let's Encrypt's HTTP challenge (files written by certbot) and the
   # redirect to HTTPS.

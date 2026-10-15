@@ -7,7 +7,7 @@ domain to its app.
 ```
 proxy-hostinger/
 ├── docker-compose.yml
-├── .env                         where each app's nginx folder is on this server
+├── .env.prod                    where each app's nginx folder is on this server
 ├── nginx/
 │   ├── http/default.conf        nginx-http: ACME challenge + redirect to HTTPS
 │   └── render-modules.sh        nginx-https: fills each app's config at startup
@@ -49,7 +49,7 @@ serving one app while the other is down; that app's routes answer 502 meanwhile.
 2. Once per server: `docker network create edge`
 3. In each app, `docker compose -f docker-compose.prod.yml up -d --build --remove-orphans`.
    `--remove-orphans` removes the app's old nginx/certbot containers, freeing 80/443.
-4. Here: set the paths in `.env`, then `docker compose up -d`
+4. Here: set the paths in `.env.prod`, then `docker compose --env-file .env.prod up -d`
 
 On the first `up`, `certbot` gets one certificate per domain (including `www.`) and
 `nginx-https` restarts until they exist. `certbot-renew` tries every 12h and
@@ -61,7 +61,7 @@ On the first `up`, `certbot` gets one certificate per domain (including `www.`) 
    compose files) and declare `edge` as `external: true`.
 2. In the app: `nginx/prod/https/nginx.conf` (a `server` block proxying to those
    aliases through variables, see the callcenter one) and `nginx/.env.prod`.
-3. Here: the folder's path in `.env`, and in `docker-compose.yml` mount both files
+3. Here: the folder's path in `.env.prod`, and in `docker-compose.yml` mount both files
    under `/modules/<app>/` in `nginx-https` and the `.env.prod` in `certbot`.
-4. `docker compose up -d --force-recreate nginx-https certbot`
+4. `docker compose --env-file .env.prod up -d --force-recreate nginx-https certbot`
 # proxy-hostinger
